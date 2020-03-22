@@ -16,4 +16,7 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/css/base.css";
+p{
+  color: red
+}
 </style>
