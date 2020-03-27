@@ -1,6 +1,5 @@
 <template>
 <div id="app">
-  <router-view></router-view>
   <tab-bar>
     <tab-bar-item path="/Home" activeColor="#1999dc">
       <img slot="item-icon" src="~assets/img/tabbar/首页.svg" alt="">

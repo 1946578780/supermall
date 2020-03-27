@@ -10,5 +10,14 @@ module.exports = {
                 'views':'@/views'
             }
         }
+    },
+    lintOnSave: false,
+    devServer: {
+    port: 8080,
+    open: true,
+    overlay: {
+      warning: false,
+      errors: false
     }
+}
 }
