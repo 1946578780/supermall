@@ -9,6 +9,9 @@
 import GoodsListItem from './GoodsListItem'
 export default {
     name: "GoodsList",
+    components: {
+        GoodsListItem
+    },
     props: {
         goods:{
             type: Array,
@@ -17,12 +20,10 @@ export default {
             }
         }
     },
-    components: {
-        GoodsListItem
-    }
+    
 }
 </script>
-<style>
+<style scoped>
 .goods{
     display: flex;
     flex-wrap: wrap;

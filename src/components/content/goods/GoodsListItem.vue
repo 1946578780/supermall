@@ -1,6 +1,6 @@
 <template>
-     <div class="goods-item">
-        <img :src="goodsItem.show.img" alt="" @load="imgeLoad">
+     <div class="goods-item" @click="itemClick">
+        <img v-lazy="showImage" alt="" @load="imgeLoad">
         <div class="goods-info">
             <span class="titel">{{goodsItem.title}}</span>
             <span class="price">{{goodsItem.price}}</span>
@@ -19,14 +19,25 @@ export default {
       }
     }
   },
+  computed: {
+    showImage(){
+      return this.goodsItem.image || this.goodsItem.show.img
+    }
+  },
   methods: {
     imgeLoad(){
-      this.$bus.$emit('itemImgeLoad')
+      this.$bus.$emit('itemImgeLoad',()=>{
+        
+      })
+    },
+    //跳转到商品详情页面
+    itemClick(){
+      this.$router.push('/Detail'+this.goodsItem.iid)
     }
   }
 };
 </script>
-<style>
+<style scoped>
 .goods-item {
     padding-bottom: 40px;
     position: relative;

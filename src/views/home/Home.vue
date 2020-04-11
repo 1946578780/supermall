@@ -34,10 +34,12 @@ import NavBar from "components/common/navbar/NavBar";
 import Scroll from "components/common/scroll/Scroll"
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList"
-import BackTop from "components/content/backtop/BackTop"
+// import BackTop from "components/content/backtop/BackTop"
 
 import { getHomeMultidata,getHomeGoods } from "network/home";
+
 import {debounce} from "common/utils"
+import {itemListenerMiXin,backTopMixin} from 'common/mixin'
 export default {
   name: "Home",
   components: {
@@ -48,7 +50,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop
+    // BackTop
   },
   data() {
     return {
@@ -60,22 +62,31 @@ export default {
         'sell': { page: 0, list: [] }
       },
       currentType: 'pop',
-      isShowBackTop: false,
+      // isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
-      saveY: 0
+      saveY: 0,
+      itemImgListener: null
     };
   },
+  //使用mixins首先import导入，再使用mixins混入常量名称，接来下就可以直接使用封装好的方法啦
+  mixins:[itemListenerMiXin,backTopMixin],
   computed: {
     showGoods(){
+      //显示哪一类数据
       return this.goods[this.currentType].list
     },
     activated () {
       this.$refs.scroll.scrollTo(0,this.saveY,0)
       this.$refs.scroll.refersh()
     },
+    //离开时
     deactivated () {
+      //保存Y值
       this.saveY = this.$refs.scroll.getScrollY()
+
+      //取消全局事件的监听
+      this.$bus.$off('itemImgeLoad',this.itemImgListener)
     }
   },
   created() {
@@ -86,10 +97,13 @@ export default {
   },
   mounted () {
       //监听item中图片加载完成
-      const refersh = debounce(this.$refs.scroll.refresh, 50)
-      this.$bus.$on('itemImgeLoad', ()=>{
-        refersh()
-      })
+      // const refersh = debounce(this.$refs.scroll.refresh, 50)
+      // //将此处的函数交于deactivated取消全局事件监听使用
+      // this.itemImgListener = ()=>{
+      //   refersh()
+      // }
+      // // itemImgeLoad  
+      // this.$bus.$on('itemImgeLoad',this.itemImgListener)
 
       //获取tabControl的offsetTop
       //所有组件都有一个$el: 用于获取组件中的元素
@@ -118,9 +132,11 @@ export default {
       this.$refs.scroll.scrollTo(0,0);
     },
     contentScroll(position){
-       this.isShowBackTop = (-position.y) > 1000
+      //  this.isShowBackTop = (-position.y) > 1000
        //滚动显示tab菜单栏
        this.isTabFixed = (-position.y) > this.tabOffsetTop
+       //混入的点击回到顶部代码
+       this.listenShoBackTop(position)
     },
     loadMore(){
       this.getHomeGoods(this.currentType)

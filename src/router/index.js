@@ -7,7 +7,7 @@ const Home = () => import('../views/home/Home')
 const Cart = () => import('../views/cart/Cart')
 const CateGory = () => import('../views/category/CateGory')
 const ProFile = () => import('../views/profile/ProFile')
-
+const Detail = () => import('views/detail/Detail')
 const routes = [
   {
     path: '/',
@@ -30,6 +30,10 @@ const routes = [
     path: '/ProFile',
     component: ProFile
   },
+  {
+    path: '/Detail:iid',
+    component: Detail
+  }
 ];
 
 const router = new VueRouter({

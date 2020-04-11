@@ -1,12 +1,12 @@
 <template>
     <div id="home_swiper">
         <swiper>
-        <swiper-item v-for="item in banners" :key="item.image">
-            <a :href="item.link">
-                <img :src="item.image" alt="" @load="ImgeLoad">
-            </a>
-        </swiper-item>
-    </swiper>
+            <swiper-item v-for="item in banners" :key="item.image">
+                <a :href="item.link">
+                    <img :src="item.image" alt="" @load="ImgeLoad">
+                </a>
+            </swiper-item>
+         </swiper>
     </div>
 </template>
 <script>
